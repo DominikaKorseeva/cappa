@@ -47,13 +47,10 @@
         {% for fieldset in inline_admin_form %}
           {% for line in fieldset %}
             {% for field in line %}
-              {% if field.is_readonly or not field.field.is_hidden %}
+              {% if not field.field.is_hidden %}
               <td{% if field.field.name %} class="field-{{ field.field.name }}"{% endif %}>
               {% if field.is_readonly %}
                   <p>{{ field.contents }}</p>
-              {% elif inline_admin_form.original and field.field.name == 'title' %}
-                  {{ field.field.as_hidden }}
-                  <p><a href="{% url 'admin:change_topic' course_pk=inline_admin_formset.model_admin.instance.id topic_pk=inline_admin_form.original.pk|admin_urlquote %}">{{ inline_admin_form.original.title }}</a></p>
               {% else %}
                   {{ field.field.errors.as_ul }}
                   {{ field.field }}
@@ -82,6 +79,3 @@
 }
 </script>
 <div class="default_order_field" default_order_field="{{ inline_admin_formset.formset.default_order_field }}" default_order_direction="{{ inline_admin_formset.formset.default_order_direction }}"></div>
-<p class="add-topic-link">
-  <a href="{% url 'admin:add_topic' course_pk=inline_admin_formset.model_admin.instance.id %}" class="addlink">Добавить тему</a>
-</p>
