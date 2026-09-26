@@ -6,7 +6,9 @@ RUN apt-get update && \
     pip install poetry==1.5.0
 
 # postgresql client for execute psql command
-RUN apt-get update && \
+RUN echo "deb http://snapshot.debian.org/archive/debian/20260825T000000Z bullseye main" > /etc/apt/sources.list && \
+    echo "deb http://snapshot.debian.org/archive/debian-security/20260825T000000Z bullseye-security main" >> /etc/apt/sources.list && \
+    apt-get -o Acquire::Check-Valid-Until=false update && \
     apt-get -y install postgresql-client
 
 # backend for caching
